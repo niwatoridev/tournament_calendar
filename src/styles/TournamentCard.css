@@ -1,0 +1,114 @@
+.tournament-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tournament-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tournament-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.tournament-header h3 {
+  color: #1f2937;
+  font-size: 20px;
+  margin: 0;
+  flex: 1;
+}
+
+.tournament-type {
+  background: #3b82f6;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tournament-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.info-value {
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.info-value.price {
+  color: #059669;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.interest-button {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #3b82f6;
+  background: white;
+  color: #3b82f6;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.interest-button:hover {
+  background: #eff6ff;
+}
+
+.interest-button.interested {
+  background: #3b82f6;
+  color: white;
+}
+
+.interest-button.interested:hover {
+  background: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .tournament-card {
+    padding: 15px;
+  }
+
+  .tournament-header h3 {
+    font-size: 18px;
+  }
+
+  .tournament-type {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}

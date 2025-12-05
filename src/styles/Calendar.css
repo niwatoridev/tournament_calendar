@@ -1,0 +1,593 @@
+.calendar {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* View Selector */
+.view-selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.view-button {
+  padding: 10px 24px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: #6b7280;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-button:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.view-button.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* Calendar Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.nav-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.nav-button:hover {
+  background: #2563eb;
+}
+
+/* Common Styles */
+.tournament-count {
+  background: #ef4444;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.day-tournaments {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.mini-tournament {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.mini-tournament:hover {
+  border-color: #3b82f6;
+  background: #f9fafb;
+}
+
+.mini-tournament-time {
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.mini-tournament-store {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-tournament-price {
+  color: #059669;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* WEEKLY VIEW */
+.weekly-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.weekly-day {
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  transition: all 0.2s;
+}
+
+.weekly-day:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.weekly-day-header {
+  background: #f9fafb;
+  padding: 12px;
+  border-bottom: 2px solid #e5e7eb;
+  position: relative;
+}
+
+.weekly-day-header.today {
+  background: #3b82f6;
+  color: white;
+}
+
+.weekly-day-header.today .day-name,
+.weekly-day-header.today .day-date {
+  color: white;
+}
+
+.day-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.day-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.weekly-day-header .tournament-count {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.weekly-day-content {
+  padding: 12px;
+  min-height: 200px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.weekly-day-content:hover {
+  background: #f9fafb;
+}
+
+.weekly-day-content.selected {
+  background: #dbeafe;
+  border-top: 3px solid #3b82f6;
+}
+
+.no-events {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9ca3af;
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* MONTHLY VIEW */
+.calendar-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.day-label {
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-day {
+  min-height: 140px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  background: white;
+  padding: 8px;
+  overflow: hidden;
+}
+
+.calendar-day.empty {
+  border: none;
+  cursor: default;
+}
+
+.calendar-day:not(.empty):hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.calendar-day.has-tournaments {
+  background: #eff6ff;
+  border-color: #3b82f6;
+}
+
+.calendar-day.selected {
+  background: #dbeafe;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.calendar-day.today {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.calendar-day.today.has-tournaments {
+  background: #fef3c7;
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.calendar-day.selected .day-number {
+  color: #1e40af;
+}
+
+.calendar-day.today .day-number {
+  color: #f59e0b;
+}
+
+.calendar-day.selected .tournament-count {
+  background: #dc2626;
+}
+
+.calendar-day.selected .mini-tournament {
+  border-color: #93c5fd;
+  background: white;
+}
+
+/* YEARLY VIEW */
+.yearly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.year-month {
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  background: white;
+  transition: all 0.2s;
+}
+
+.year-month:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.year-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1f2937;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.month-tournament-count {
+  background: #3b82f6;
+  color: white;
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.year-month-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.mini-day-label {
+  text-align: center;
+  font-weight: 600;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.year-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.mini-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #6b7280;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+
+.mini-day.empty {
+  cursor: default;
+}
+
+.mini-day:not(.empty):hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1f2937;
+}
+
+.mini-day.has-tournaments {
+  background: #3b82f6;
+  color: white;
+  font-weight: 700;
+}
+
+.mini-day.has-tournaments:hover {
+  background: #2563eb;
+}
+
+.mini-day.today {
+  border: 2px solid #f59e0b;
+  font-weight: 700;
+}
+
+.mini-day.today.has-tournaments {
+  border-color: #fbbf24;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+  .calendar {
+    max-width: 1000px;
+  }
+
+  .calendar-day {
+    min-height: 120px;
+    padding: 6px;
+  }
+
+  .day-number {
+    font-size: 16px;
+  }
+
+  .mini-tournament {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+
+  .weekly-day-content {
+    min-height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar {
+    padding: 10px;
+  }
+
+  .view-selector {
+    gap: 6px;
+  }
+
+  .view-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .calendar-header h2 {
+    font-size: 18px;
+  }
+
+  .nav-button {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  /* Weekly view mobile */
+  .weekly-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .weekly-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .day-name {
+    font-size: 16px;
+  }
+
+  .day-date {
+    font-size: 14px;
+  }
+
+  .weekly-day-content {
+    min-height: 120px;
+  }
+
+  /* Monthly view mobile */
+  .calendar-grid {
+    gap: 6px;
+  }
+
+  .calendar-day {
+    min-height: 100px;
+    padding: 5px;
+  }
+
+  .day-number {
+    font-size: 14px;
+  }
+
+  .tournament-count {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .mini-tournament {
+    font-size: 9px;
+    padding: 4px 6px;
+  }
+
+  .mini-tournament-store {
+    margin-bottom: 2px;
+  }
+
+  .mini-tournament-price {
+    font-size: 9px;
+  }
+
+  .day-label {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  /* Yearly view mobile */
+  .yearly-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar {
+    padding: 8px;
+  }
+
+  .view-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .calendar-header h2 {
+    font-size: 16px;
+  }
+
+  /* Weekly view small mobile */
+  .weekly-day-header {
+    padding: 10px;
+  }
+
+  .day-name {
+    font-size: 14px;
+  }
+
+  .day-date {
+    font-size: 12px;
+  }
+
+  .weekly-day-content {
+    padding: 10px;
+    min-height: 100px;
+  }
+
+  /* Monthly view small mobile */
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day {
+    min-height: 85px;
+    padding: 4px;
+  }
+
+  .day-header {
+    margin-bottom: 4px;
+  }
+
+  .day-number {
+    font-size: 12px;
+  }
+
+  .tournament-count {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  .mini-tournament {
+    font-size: 8px;
+    padding: 3px 4px;
+  }
+
+  .mini-tournament-price {
+    font-size: 8px;
+  }
+
+  .day-label {
+    font-size: 10px;
+    padding: 4px;
+  }
+}
