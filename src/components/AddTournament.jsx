@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
+import { useTranslation } from '../hooks/useTranslation';
+import { useAuth } from '../hooks/useAuth';
 import { createUniqueTournament, createRecurringTournament } from '../services/api';
+import Toast from './Toast';
 import '../styles/AddTournament.css';
 
 const CITIES = ['Puebla', 'Ciudad de Mexico'];
 const TCGS = ['Pokemon TCG', 'Magic: The Gathering', 'Yu-Gi-Oh!'];
 const TOURNAMENT_TYPES = ['Standard', 'Expanded', 'League Cup', 'Regional Qualifier', 'Torneo de Liga', 'Competitivo'];
-const DAYS_OF_WEEK = [
-  { value: 0, label: 'Domingo' },
-  { value: 1, label: 'Lunes' },
-  { value: 2, label: 'Martes' },
-  { value: 3, label: 'Miércoles' },
-  { value: 4, label: 'Jueves' },
-  { value: 5, label: 'Viernes' },
-  { value: 6, label: 'Sábado' }
-];
 
 const AddTournament = ({ onTournamentAdded, useAPI }) => {
+  const { t, isLanguageFading } = useTranslation();
+  const { isAuthenticated, token } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isRecurring, setIsRecurring] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  // No mostrar el formulario si no está autenticado y useAPI es true
+  if (useAPI && !isAuthenticated) {
+    return null;
+  }
+
+  const DAYS_OF_WEEK = [
+    { value: 0, label: t('days.sunday') },
+    { value: 1, label: t('days.monday') },
+    { value: 2, label: t('days.tuesday') },
+    { value: 3, label: t('days.wednesday') },
+    { value: 4, label: t('days.thursday') },
+    { value: 5, label: t('days.friday') },
+    { value: 6, label: t('days.saturday') }
+  ];
 
   const [formData, setFormData] = useState({
     tcg: 'Pokemon TCG',
@@ -48,12 +60,12 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
 
     // Validación básica
     if (!formData.store.trim()) {
-      alert('Por favor ingresa el nombre de la tienda');
+      setToast({ message: t('addTournament.name'), type: 'error' });
       return;
     }
 
     if (!isRecurring && !formData.date) {
-      alert('Por favor selecciona una fecha');
+      setToast({ message: t('addTournament.date'), type: 'error' });
       return;
     }
 
@@ -77,15 +89,15 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
       newTournament.date = formData.date;
     }
 
-    // Si useAPI es true, enviar al backend
+    // Si useAPI es true, enviar al backend con token
     if (useAPI) {
       setIsSubmitting(true);
       try {
         let savedTournament;
         if (isRecurring) {
-          savedTournament = await createRecurringTournament(newTournament);
+          savedTournament = await createRecurringTournament(newTournament, token);
         } else {
-          savedTournament = await createUniqueTournament(newTournament);
+          savedTournament = await createUniqueTournament(newTournament, token);
         }
 
         // Notificar al componente padre con el torneo guardado
@@ -93,9 +105,9 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
           onTournamentAdded(savedTournament, isRecurring);
         }
 
-        alert(`Torneo ${isRecurring ? 'recurrente' : 'único'} agregado exitosamente`);
+        setToast({ message: t('addTournament.success'), type: 'success' });
       } catch (error) {
-        alert(`Error al guardar el torneo: ${error.message}`);
+        setToast({ message: `${t('addTournament.error')}: ${error.message}`, type: 'error' });
         setIsSubmitting(false);
         return;
       } finally {
@@ -112,7 +124,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
         onTournamentAdded(tournamentWithId, isRecurring);
       }
 
-      alert(`Torneo ${isRecurring ? 'recurrente' : 'único'} agregado exitosamente`);
+      setToast({ message: t('addTournament.success'), type: 'success' });
     }
 
     // Resetear formulario
@@ -134,17 +146,17 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
   };
 
   return (
-    <div className="add-tournament">
+    <div className={`add-tournament ${isLanguageFading ? 'fade-transition' : ''}`}>
       <button
         className="toggle-form-button"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        {isExpanded ? '− Cerrar Formulario' : '+ Agregar Torneo'}
+        {isExpanded ? `− ${t('addTournament.title')}` : `+ ${t('addTournament.title')}`}
       </button>
 
       {isExpanded && (
         <div className="add-tournament-form-container">
-          <h3>Agregar Nuevo Torneo</h3>
+          <h3>{t('addTournament.title')}</h3>
 
           <div className="tournament-type-toggle">
             <button
@@ -152,21 +164,21 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
               className={`toggle-button ${!isRecurring ? 'active' : ''}`}
               onClick={() => setIsRecurring(false)}
             >
-              Torneo Único
+              {t('addTournament.name')}
             </button>
             <button
               type="button"
               className={`toggle-button ${isRecurring ? 'active' : ''}`}
               onClick={() => setIsRecurring(true)}
             >
-              Torneo Recurrente
+              {t('addTournament.isRecurring')}
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="add-tournament-form">
             <div className="form-grid">
               <div className="form-group">
-                <label htmlFor="tcg">Juego (TCG)</label>
+                <label htmlFor="tcg">{t('addTournament.tcg')}</label>
                 <select
                   id="tcg"
                   name="tcg"
@@ -181,7 +193,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="city">Ciudad</label>
+                <label htmlFor="city">{t('addTournament.city')}</label>
                 <select
                   id="city"
                   name="city"
@@ -196,20 +208,20 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="store">Tienda</label>
+                <label htmlFor="store">{t('addTournament.location')}</label>
                 <input
                   type="text"
                   id="store"
                   name="store"
                   value={formData.store}
                   onChange={handleChange}
-                  placeholder="Nombre de la tienda"
+                  placeholder={t('addTournament.name')}
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="time">Hora</label>
+                <label htmlFor="time">{t('addTournament.time')}</label>
                 <input
                   type="time"
                   id="time"
@@ -221,7 +233,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="entryFee">Precio de Entrada (MXN)</label>
+                <label htmlFor="entryFee">{t('addTournament.fee')}</label>
                 <input
                   type="number"
                   id="entryFee"
@@ -235,7 +247,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="tournamentType">Tipo de Torneo</label>
+                <label htmlFor="tournamentType">{t('addTournament.tournamentType')}</label>
                 <select
                   id="tournamentType"
                   name="tournamentType"
@@ -251,7 +263,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
 
               {!isRecurring ? (
                 <div className="form-group full-width">
-                  <label htmlFor="date">Fecha</label>
+                  <label htmlFor="date">{t('addTournament.date')}</label>
                   <input
                     type="date"
                     id="date"
@@ -264,7 +276,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
               ) : (
                 <>
                   <div className="form-group">
-                    <label htmlFor="dayOfWeek">Día de la Semana</label>
+                    <label htmlFor="dayOfWeek">{t('addTournament.recurringDay')}</label>
                     <select
                       id="dayOfWeek"
                       name="dayOfWeek"
@@ -279,7 +291,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="startDate">Fecha de Inicio</label>
+                    <label htmlFor="startDate">{t('addTournament.date')}</label>
                     <input
                       type="date"
                       id="startDate"
@@ -291,7 +303,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
                   </div>
 
                   <div className="form-group full-width">
-                    <label htmlFor="endDate">Fecha de Fin (Opcional)</label>
+                    <label htmlFor="endDate">{t('addTournament.date')}</label>
                     <input
                       type="date"
                       id="endDate"
@@ -306,7 +318,7 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
 
             <div className="form-actions">
               <button type="submit" className="submit-button" disabled={isSubmitting}>
-                {isSubmitting ? 'Guardando...' : 'Agregar Torneo'}
+                {isSubmitting ? `${t('app.loading')}` : t('addTournament.submit')}
               </button>
               <button
                 type="button"
@@ -314,11 +326,19 @@ const AddTournament = ({ onTournamentAdded, useAPI }) => {
                 onClick={() => setIsExpanded(false)}
                 disabled={isSubmitting}
               >
-                Cancelar
+                {t('addTournament.title')}
               </button>
             </div>
           </form>
         </div>
+      )}
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </div>
   );

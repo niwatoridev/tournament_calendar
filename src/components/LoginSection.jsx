@@ -1,31 +1,34 @@
 import React from 'react';
+import { useTranslation } from '../hooks/useTranslation';
 import '../styles/LoginSection.css';
 
 const LoginSection = () => {
+  const { t, isLanguageFading } = useTranslation();
+
   const handleLogin = (e) => {
     e.preventDefault();
-    alert('Funcionalidad de login próximamente disponible');
+    alert(t('login.submit'));
   };
 
   return (
-    <div className="login-section">
-      <h3>¿Tienes una tienda?</h3>
-      <p>Inicia sesión para administrar tus torneos</p>
+    <div className={`login-section ${isLanguageFading ? 'fade-transition' : ''}`}>
+      <h3>{t('login.title')}</h3>
+      <p>{t('login.subtitle')}</p>
       <form onSubmit={handleLogin} className="login-form">
         <input
           type="email"
-          placeholder="Correo electrónico"
+          placeholder={t('login.email')}
           disabled
           className="login-input"
         />
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder={t('login.password')}
           disabled
           className="login-input"
         />
         <button type="submit" className="login-button" disabled>
-          Iniciar sesión (Próximamente)
+          {t('login.submit')}
         </button>
       </form>
     </div>

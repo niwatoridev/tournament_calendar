@@ -1,15 +1,44 @@
 import React, { useState } from 'react';
+import { useTranslation } from '../hooks/useTranslation';
 import '../styles/Calendar.css';
 
-const MONTHS = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-];
-
-const DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-const DAYS_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-
 const Calendar = ({ tournaments, onDateSelect, selectedDate }) => {
+  const { t, isLanguageFading } = useTranslation();
+
+  const MONTHS = [
+    t('calendar.months.january'),
+    t('calendar.months.february'),
+    t('calendar.months.march'),
+    t('calendar.months.april'),
+    t('calendar.months.may'),
+    t('calendar.months.june'),
+    t('calendar.months.july'),
+    t('calendar.months.august'),
+    t('calendar.months.september'),
+    t('calendar.months.october'),
+    t('calendar.months.november'),
+    t('calendar.months.december')
+  ];
+
+  const DAYS = [
+    t('days.sunday'),
+    t('days.monday'),
+    t('days.tuesday'),
+    t('days.wednesday'),
+    t('days.thursday'),
+    t('days.friday'),
+    t('days.saturday')
+  ];
+
+  const DAYS_SHORT = [
+    t('calendar.daysShort.sunday'),
+    t('calendar.daysShort.monday'),
+    t('calendar.daysShort.tuesday'),
+    t('calendar.daysShort.wednesday'),
+    t('calendar.daysShort.thursday'),
+    t('calendar.daysShort.friday'),
+    t('calendar.daysShort.saturday')
+  ];
   const today = new Date();
   const [viewMode, setViewMode] = useState('weekly'); // 'weekly', 'monthly', 'yearly'
   const [currentDate, setCurrentDate] = useState(today);
@@ -122,13 +151,13 @@ const Calendar = ({ tournaments, onDateSelect, selectedDate }) => {
                           <div className="mini-tournament-time">{tournament.time}</div>
                           <div className="mini-tournament-store">{tournament.store}</div>
                           <div className="mini-tournament-price">
-                            {tournament.entryFee === 0 ? 'Gratis' : `$${tournament.entryFee}`}
+                            {tournament.entryFee === 0 ? t('tournament.free') : `$${tournament.entryFee}`}
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="no-events">Sin torneos</div>
+                    <div className="no-events">{t('calendar.noEvents')}</div>
                   )}
                 </div>
               </div>
@@ -178,7 +207,7 @@ const Calendar = ({ tournaments, onDateSelect, selectedDate }) => {
                 <div key={tournament.id} className="mini-tournament">
                   <div className="mini-tournament-store">{tournament.store}</div>
                   <div className="mini-tournament-price">
-                    {tournament.entryFee === 0 ? 'Gratis' : `$${tournament.entryFee}`}
+                    {tournament.entryFee === 0 ? t('tournament.free') : `$${tournament.entryFee}`}
                   </div>
                 </div>
               ))}
@@ -240,7 +269,7 @@ const Calendar = ({ tournaments, onDateSelect, selectedDate }) => {
               setCurrentDate(date);
               setViewMode('monthly');
             }}
-            title={hasTournaments ? `${dayTournaments.length} torneo(s)` : ''}
+            title={hasTournaments ? `${dayTournaments.length} ${t('calendar.tournamentCount')}` : ''}
           >
             {day}
           </div>
@@ -283,24 +312,24 @@ const Calendar = ({ tournaments, onDateSelect, selectedDate }) => {
 
   return (
     <div className="calendar">
-      <div className="view-selector">
+      <div className={`view-selector ${isLanguageFading ? 'fade-transition' : ''}`}>
         <button
           className={`view-button ${viewMode === 'weekly' ? 'active' : ''}`}
           onClick={() => setViewMode('weekly')}
         >
-          Semana
+          {t('calendar.viewWeek')}
         </button>
         <button
           className={`view-button ${viewMode === 'monthly' ? 'active' : ''}`}
           onClick={() => setViewMode('monthly')}
         >
-          Mes
+          {t('calendar.viewMonth')}
         </button>
         <button
           className={`view-button ${viewMode === 'yearly' ? 'active' : ''}`}
           onClick={() => setViewMode('yearly')}
         >
-          Año
+          {t('calendar.viewYear')}
         </button>
       </div>
 

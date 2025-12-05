@@ -1,180 +1,38 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import Calendar from './components/Calendar';
-import Filters from './components/Filters';
-import TournamentCard from './components/TournamentCard';
-import LoginSection from './components/LoginSection';
-import AddTournament from './components/AddTournament';
-import useLocalStorage from './utils/useLocalStorage';
-import tournamentsData from './data/tournaments.json';
-import { getTournamentsForDateRange } from './utils/tournamentUtils';
-import { getTournaments } from './services/api';
-import './styles/App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import AdminDashboard from './pages/AdminDashboard';
+import StoreDashboard from './pages/StoreDashboard';
 
 function App() {
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedTCG, setSelectedTCG] = useState('Pokemon TCG');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [interestedTournaments, setInterestedTournaments] = useLocalStorage('interestedTournaments', []);
-  const [localTournaments, setLocalTournaments] = useLocalStorage('localTournaments', { uniqueTournaments: [], recurringTournaments: [] });
-
-  // Estados para API
-  const [apiTournaments, setApiTournaments] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [useAPI, setUseAPI] = useState(true); // API activada - Backend en http://localhost:5000
-
-  // Cargar torneos desde la API cuando useAPI es true
-  useEffect(() => {
-    if (useAPI) {
-      const fetchTournaments = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-          const data = await getTournaments();
-          setApiTournaments(data);
-        } catch (err) {
-          setError('Error al cargar torneos desde el servidor');
-          console.error(err);
-          // Fallback al JSON local si falla la API
-          setApiTournaments(tournamentsData);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchTournaments();
-    }
-  }, [useAPI]);
-
-  // Combinar torneos del JSON o API con torneos agregados localmente
-  const combinedTournamentsData = useMemo(() => {
-    const baseData = useAPI && apiTournaments ? apiTournaments : tournamentsData;
-
-    return {
-      uniqueTournaments: [
-        ...(baseData.uniqueTournaments || []),
-        ...(localTournaments.uniqueTournaments || [])
-      ],
-      recurringTournaments: [
-        ...(baseData.recurringTournaments || []),
-        ...(localTournaments.recurringTournaments || [])
-      ]
-    };
-  }, [useAPI, apiTournaments, localTournaments]);
-
-  // Generate tournaments for the entire year (can be optimized later)
-  const allTournaments = useMemo(() => {
-    const startDate = new Date('2025-01-01');
-    const endDate = new Date('2025-12-31');
-    return getTournamentsForDateRange(combinedTournamentsData, startDate, endDate);
-  }, [combinedTournamentsData]);
-
-  // Filter tournaments by city and TCG
-  const filteredTournaments = useMemo(() => {
-    return allTournaments.filter(tournament => {
-      const matchesCity = !selectedCity || tournament.city === selectedCity;
-      const matchesTCG = !selectedTCG || tournament.tcg === selectedTCG;
-      return matchesCity && matchesTCG;
-    });
-  }, [allTournaments, selectedCity, selectedTCG]);
-
-  // Get tournaments for selected date
-  const tournamentsForSelectedDate = useMemo(() => {
-    if (!selectedDate) return [];
-    return filteredTournaments.filter(t => t.date === selectedDate);
-  }, [selectedDate, filteredTournaments]);
-
-  const handleToggleInterest = (tournamentId) => {
-    setInterestedTournaments(prev => {
-      if (prev.includes(tournamentId)) {
-        return prev.filter(id => id !== tournamentId);
-      } else {
-        return [...prev, tournamentId];
-      }
-    });
-  };
-
-  const handleTournamentAdded = (newTournament, isRecurring) => {
-    setLocalTournaments(prev => {
-      if (isRecurring) {
-        return {
-          ...prev,
-          recurringTournaments: [...prev.recurringTournaments, newTournament]
-        };
-      } else {
-        return {
-          ...prev,
-          uniqueTournaments: [...prev.uniqueTournaments, newTournament]
-        };
-      }
-    });
-  };
-
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Calendario de Torneos TCG</h1>
-        <p>Encuentra torneos en tu ciudad</p>
-      </header>
-
-      {loading && (
-        <div className="loading-message">
-          Cargando torneos...
-        </div>
-      )}
-
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
-
-      <main className="app-main">
-        <AddTournament onTournamentAdded={handleTournamentAdded} useAPI={useAPI} />
-
-        <Filters
-          selectedCity={selectedCity}
-          selectedTCG={selectedTCG}
-          onCityChange={setSelectedCity}
-          onTCGChange={setSelectedTCG}
-        />
-
-        <Calendar
-          tournaments={filteredTournaments}
-          onDateSelect={setSelectedDate}
-          selectedDate={selectedDate}
-        />
-
-        {selectedDate && (
-          <div className="tournaments-section">
-            <h2>
-              Torneos para {new Date(selectedDate + 'T00:00:00').toLocaleDateString('es-MX', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </h2>
-
-            {tournamentsForSelectedDate.length > 0 ? (
-              <div className="tournaments-grid">
-                {tournamentsForSelectedDate.map(tournament => (
-                  <TournamentCard
-                    key={tournament.id}
-                    tournament={tournament}
-                    isInterested={interestedTournaments.includes(tournament.id)}
-                    onToggleInterest={handleToggleInterest}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p className="no-tournaments">No hay torneos programados para esta fecha</p>
-            )}
-          </div>
-        )}
-
-        <LoginSection />
-      </main>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <StoreDashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

@@ -1,0 +1,276 @@
+{
+  "es-MX": {
+    "app": {
+      "title": "Calendario de Torneos TCG",
+      "subtitle": "Encuentra torneos en tu ciudad",
+      "loading": "Cargando...",
+      "error": "Error al cargar torneos desde el servidor",
+      "noTournaments": "No hay torneos programados para esta fecha",
+      "logout": "Cerrar Sesión"
+    },
+    "filters": {
+      "city": "Ciudad",
+      "allCities": "Todas las ciudades",
+      "tcg": "TCG",
+      "allTCGs": "Todos los TCGs"
+    },
+    "calendar": {
+      "tournamentsFor": "Torneos para",
+      "noEvents": "Sin torneos",
+      "viewWeek": "Semana",
+      "viewMonth": "Mes",
+      "viewYear": "Año",
+      "tournamentCount": "torneo(s)",
+      "months": {
+        "january": "Enero",
+        "february": "Febrero",
+        "march": "Marzo",
+        "april": "Abril",
+        "may": "Mayo",
+        "june": "Junio",
+        "july": "Julio",
+        "august": "Agosto",
+        "september": "Septiembre",
+        "october": "Octubre",
+        "november": "Noviembre",
+        "december": "Diciembre"
+      },
+      "daysShort": {
+        "sunday": "Dom",
+        "monday": "Lun",
+        "tuesday": "Mar",
+        "wednesday": "Mié",
+        "thursday": "Jue",
+        "friday": "Vie",
+        "saturday": "Sáb"
+      }
+    },
+    "tournament": {
+      "interested": "Me interesa",
+      "notInterested": "Ya no me interesa",
+      "participants": "participantes",
+      "fee": "Inscripción",
+      "free": "Gratis",
+      "moreInfo": "Más información"
+    },
+    "addTournament": {
+      "title": "Agregar Torneo",
+      "name": "Nombre del torneo",
+      "city": "Ciudad",
+      "tcg": "TCG",
+      "date": "Fecha",
+      "time": "Hora",
+      "location": "Ubicación",
+      "maxParticipants": "Máximo de participantes",
+      "fee": "Costo de inscripción",
+      "description": "Descripción",
+      "contactInfo": "Información de contacto",
+      "isRecurring": "¿Es torneo recurrente?",
+      "recurringDay": "Día de la semana",
+      "recurringInfo": "Los torneos recurrentes se repiten cada semana en el día seleccionado",
+      "submit": "Agregar Torneo",
+      "success": "Torneo agregado exitosamente",
+      "error": "Error al agregar el torneo",
+      "tournamentType": "Tipo de Torneo",
+      "types": {
+        "standard": "Standard",
+        "expanded": "Expanded",
+        "leagueCup": "League Cup",
+        "regionalQualifier": "Regional Qualifier",
+        "leagueTournament": "Torneo de Liga",
+        "competitive": "Competitivo"
+      }
+    },
+    "login": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Accede a tu cuenta para gestionar torneos",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Tu contraseña",
+      "submit": "Iniciar Sesión",
+      "success": "Sesión iniciada correctamente",
+      "error": "Error al iniciar sesión",
+      "backToHome": "Volver al inicio",
+      "validation": {
+        "required": "Por favor completa todos los campos"
+      }
+    },
+    "admin": {
+      "title": "Panel de Administración",
+      "role": "Administrador",
+      "users": "Usuarios",
+      "stores": "Tiendas",
+      "tournaments": "Torneos",
+      "userManagement": "Gestión de Usuarios",
+      "storeManagement": "Gestión de Tiendas",
+      "tournamentManagement": "Gestión de Torneos",
+      "comingSoon": "Esta funcionalidad estará disponible próximamente..."
+    },
+    "store": {
+      "title": "Panel de Tienda",
+      "role": "Tienda",
+      "myTournaments": "Mis Torneos",
+      "profile": "Perfil",
+      "tournamentManagement": "Gestión de Torneos",
+      "storeProfile": "Perfil de Tienda",
+      "comingSoon": "Esta funcionalidad estará disponible próximamente..."
+    },
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "api": {
+      "errorFetchTournaments": "Error al obtener torneos",
+      "errorCreateTournament": "Error al crear torneo",
+      "errorUpdateTournament": "Error al actualizar torneo",
+      "errorDeleteTournament": "Error al eliminar torneo"
+    },
+    "languageSwitcher": {
+      "switchToEnglish": "Switch to English",
+      "switchToSpanish": "Cambiar a Español"
+    }
+  },
+  "en-US": {
+    "app": {
+      "title": "TCG Tournament Calendar",
+      "subtitle": "Find tournaments in your city",
+      "loading": "Loading...",
+      "error": "Error loading tournaments from server",
+      "noTournaments": "No tournaments scheduled for this date",
+      "logout": "Logout"
+    },
+    "filters": {
+      "city": "City",
+      "allCities": "All cities",
+      "tcg": "TCG",
+      "allTCGs": "All TCGs"
+    },
+    "calendar": {
+      "tournamentsFor": "Tournaments for",
+      "noEvents": "No tournaments",
+      "viewWeek": "Week",
+      "viewMonth": "Month",
+      "viewYear": "Year",
+      "tournamentCount": "tournament(s)",
+      "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      },
+      "daysShort": {
+        "sunday": "Sun",
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thu",
+        "friday": "Fri",
+        "saturday": "Sat"
+      }
+    },
+    "tournament": {
+      "interested": "I'm interested",
+      "notInterested": "Not interested anymore",
+      "participants": "participants",
+      "fee": "Entry Fee",
+      "free": "Free",
+      "moreInfo": "More information"
+    },
+    "addTournament": {
+      "title": "Add Tournament",
+      "name": "Tournament name",
+      "city": "City",
+      "tcg": "TCG",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "maxParticipants": "Maximum participants",
+      "fee": "Entry fee",
+      "description": "Description",
+      "contactInfo": "Contact information",
+      "isRecurring": "Is it a recurring tournament?",
+      "recurringDay": "Day of the week",
+      "recurringInfo": "Recurring tournaments repeat every week on the selected day",
+      "submit": "Add Tournament",
+      "success": "Tournament added successfully",
+      "error": "Error adding tournament",
+      "tournamentType": "Tournament Type",
+      "types": {
+        "standard": "Standard",
+        "expanded": "Expanded",
+        "leagueCup": "League Cup",
+        "regionalQualifier": "Regional Qualifier",
+        "leagueTournament": "League Tournament",
+        "competitive": "Competitive"
+      }
+    },
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Access your account to manage tournaments",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Your password",
+      "submit": "Sign In",
+      "success": "Successfully signed in",
+      "error": "Error signing in",
+      "backToHome": "Back to home",
+      "validation": {
+        "required": "Please fill in all fields"
+      }
+    },
+    "admin": {
+      "title": "Admin Dashboard",
+      "role": "Administrator",
+      "users": "Users",
+      "stores": "Stores",
+      "tournaments": "Tournaments",
+      "userManagement": "User Management",
+      "storeManagement": "Store Management",
+      "tournamentManagement": "Tournament Management",
+      "comingSoon": "This feature is coming soon..."
+    },
+    "store": {
+      "title": "Store Dashboard",
+      "role": "Store",
+      "myTournaments": "My Tournaments",
+      "profile": "Profile",
+      "tournamentManagement": "Tournament Management",
+      "storeProfile": "Store Profile",
+      "comingSoon": "This feature is coming soon..."
+    },
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "api": {
+      "errorFetchTournaments": "Error fetching tournaments",
+      "errorCreateTournament": "Error creating tournament",
+      "errorUpdateTournament": "Error updating tournament",
+      "errorDeleteTournament": "Error deleting tournament"
+    },
+    "languageSwitcher": {
+      "switchToEnglish": "Switch to English",
+      "switchToSpanish": "Cambiar a Español"
+    }
+  }
+}
